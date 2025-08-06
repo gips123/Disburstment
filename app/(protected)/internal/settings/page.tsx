@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function InternalSettingsPage() {
   return (
-    <div className="w-full h-full p-6">
+    <div className="w-full h-full p-6 overflow-y-auto">
       <h1 className="text-2xl font-bold mb-6">Settings (Internal)</h1>
       <Tabs defaultValue="user" className="w-full">
         <TabsList>

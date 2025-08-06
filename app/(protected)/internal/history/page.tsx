@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function InternalHistoryPage() {
   return (
-    <div className="w-full h-full p-6 space-y-6">
+    <div className="w-full h-full p-6 space-y-6 overflow-y-auto">
       <h1 className="text-2xl font-bold">History (Internal)</h1>
       <Card className="w-full">
         <CardHeader>

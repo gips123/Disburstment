@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 
 export default function ExternalTransferPage() {
   return (
-    <div className="w-full h-full p-6 space-y-6">
+    <div className="w-full h-full p-6 space-y-6 overflow-y-auto">
       <h1 className="text-2xl font-bold">Transfer (Merchant)</h1>
       <Card className="w-full">
         <CardHeader>

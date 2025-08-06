@@ -45,7 +45,7 @@ const menuItems = [
   },
   {
     title: 'History',
-    href: '/external/History',
+    href: '/external/history',
     icon: TrendingUp,
   },
   {
@@ -61,7 +61,7 @@ export function ExternalSidebar() {
 
   return (
     <div className={cn(
-      "bg-white border-r border-gray-200 transition-all duration-300",
+      "bg-white border-r border-gray-200 transition-all duration-300 flex-shrink-0 h-full",
       collapsed ? "w-16" : "w-64"
     )}>
       <div className="flex flex-col h-full">

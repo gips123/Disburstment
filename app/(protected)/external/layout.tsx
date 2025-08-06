@@ -38,11 +38,11 @@ export default function ExternalLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex h-screen w-full bg-gray-50">
+    <div className="flex h-screen w-screen bg-gray-50 overflow-hidden">
       <ExternalSidebar />
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         <ExternalHeader />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 w-full">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 w-full h-full">
           {children}
         </main>
       </div>
