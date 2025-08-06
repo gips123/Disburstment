@@ -44,14 +44,9 @@ const menuItems = [
     icon: CreditCard,
   },
   {
-    title: 'Reports',
-    href: '/external/reports',
+    title: 'History',
+    href: '/external/History',
     icon: TrendingUp,
-  },
-  {
-    title: 'Activity Logs',
-    href: '/external/logs',
-    icon: Activity,
   },
   {
     title: 'Account Settings',

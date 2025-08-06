@@ -49,14 +49,9 @@ const menuItems = [
     icon: Users,
   },
   {
-    title: 'Reports',
-    href: '/internal/reports',
+    title: 'History',
+    href: '/internal/history',
     icon: TrendingUp,
-  },
-  {
-    title: 'Activity Logs',
-    href: '/internal/logs',
-    icon: Activity,
   },
   {
     title: 'Settings',
