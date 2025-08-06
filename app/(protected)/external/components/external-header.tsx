@@ -20,11 +20,11 @@ export function ExternalHeader() {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 px-6 py-4">
-      <div className="flex items-center justify-between">
+    <header className="bg-white border-b border-gray-200 px-6 py-4 w-full">
+      <div className="flex items-center justify-between w-full">
         {/* Search */}
-        <div className="flex-1 max-w-lg">
-          <div className="relative">
+        <div className="flex-1 max-w-lg min-w-0">
+          <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
             <input
               type="text"
@@ -35,7 +35,7 @@ export function ExternalHeader() {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 ml-4">
           {/* Balance Display */}
           <div className="flex items-center space-x-2 bg-green-50 px-3 py-2 rounded-lg">
             <DollarSign className="h-4 w-4 text-green-600" />
