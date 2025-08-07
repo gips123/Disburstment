@@ -5,22 +5,25 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatsCards } from './components/StatsCards';
 import { ApprovalList } from './components/ApprovalList';
-import { approvals } from './data/dummy-approvals';
+import { approvals as initialApprovals } from './data/dummy-approvals';
+import { merchants as initialMerchants } from '../merchants/data/dummy-merchants';
 
 export default function ApprovalsPage() {
   const [activeTab, setActiveTab] = useState('all');
+  const [approvals, setApprovals] = useState(initialApprovals);
+  const [merchants, setMerchants] = useState(initialMerchants);
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Approval Queue</h1>
-          <p className="text-gray-600">Review and approve pending requests</p>
+          <h1 className="text-2xl font-bold text-gray-900">Antrian Persetujuan</h1>
+          <p className="text-gray-600">Tinjau dan setujui permintaan yang menunggu</p>
         </div>
         <div className="flex items-center space-x-2">
           <Badge className="bg-yellow-100 text-yellow-800">
-            {approvals.filter(a => a.status === 'PENDING').length} Pending
+            {approvals.filter(a => a.status === 'PENDING').length} Menunggu
           </Badge>
         </div>
       </div>
@@ -31,12 +34,18 @@ export default function ApprovalsPage() {
       {/* Approval List */}
       <Card>
         <CardHeader>
-          <CardTitle>Approval Requests</CardTitle>
+          <CardTitle>Permintaan Persetujuan</CardTitle>
         </CardHeader>
         <CardContent>
-          <ApprovalList approvals={approvals} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <ApprovalList 
+            approvals={approvals} 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab}
+            setMerchants={setMerchants}
+            setApprovals={setApprovals}
+          />
         </CardContent>
       </Card>
     </div>
   );
-} 
+}

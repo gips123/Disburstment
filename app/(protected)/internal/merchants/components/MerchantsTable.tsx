@@ -1,6 +1,4 @@
-'use client';
-
-import { useMemo, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { ColumnDef, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, PaginationState, Row, SortingState, useReactTable } from '@tanstack/react-table';
 import { EllipsisVertical, Filter, Search, Settings2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,7 +14,7 @@ import { DataGridColumnVisibility } from '@/components/ui/data-grid-column-visib
 import { DataGridPagination } from '@/components/ui/data-grid-pagination';
 import { DataGridTable } from '@/components/ui/data-grid-table';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-
+import { useMemo, useState } from 'react';
 
 interface Merchant {
   id: string;
@@ -48,7 +46,11 @@ function ActionsCell({ row }: { row: Row<Merchant> }) {
   );
 }
 
-export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
+// Perbarui definisi prop untuk menyertakan setMerchants
+export function MerchantsTable({ merchants, setMerchants }: { 
+  merchants: Merchant[]; 
+  setMerchants: Dispatch<SetStateAction<Merchant[]>> 
+}) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -129,7 +131,7 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       {
         accessorKey: 'code',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Code" column={column} />
+          <DataGridColumnHeader title="Kode" column={column} />
         ),
         cell: ({ row }) => (
           <Badge variant="outline">{row.original.code}</Badge>
@@ -140,7 +142,7 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       {
         accessorKey: 'email',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Contact" column={column} />
+          <DataGridColumnHeader title="Kontak" column={column} />
         ),
         cell: ({ row }) => (
           <div>
@@ -154,7 +156,7 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       {
         accessorKey: 'balance',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Balance" column={column} />
+          <DataGridColumnHeader title="Saldo" column={column} />
         ),
         cell: ({ row }) => (
           <div className="font-medium">
@@ -183,12 +185,12 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       {
         accessorKey: 'limits',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Limits" column={column} />
+          <DataGridColumnHeader title="Limit" column={column} />
         ),
         cell: ({ row }) => (
           <div className="text-sm">
-            <div>Daily: {(row.original.dailyLimit / 1000000).toFixed(0)}M</div>
-            <div>Monthly: {(row.original.monthlyLimit / 1000000).toFixed(0)}M</div>
+            <div>Harian: {(row.original.dailyLimit / 1000000).toFixed(0)}M</div>
+            <div>Bulanan: {(row.original.monthlyLimit / 1000000).toFixed(0)}M</div>
           </div>
         ),
         enableSorting: false,
@@ -197,7 +199,7 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       {
         accessorKey: 'createdAt',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Created" column={column} />
+          <DataGridColumnHeader title="Dibuat" column={column} />
         ),
         cell: ({ row }) => (
           <div className="text-sm text-gray-600">{row.original.createdAt}</div>
@@ -241,14 +243,14 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       <div className="flex items-center gap-2">
         <Button variant="outline">
           <Settings2 className="h-4 w-4 mr-2" />
-          Filters
+          Filter
         </Button>
         <DataGridColumnVisibility
           table={table}
           trigger={
             <Button variant="outline">
               <Settings2 className="h-4 w-4 mr-2" />
-              Columns
+              Kolom
             </Button>
           }
         />
@@ -270,7 +272,7 @@ export function MerchantsTable({ merchants }: { merchants: Merchant[] }) {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Merchants</CardTitle>
+            <CardTitle>Merchant</CardTitle>
             <div className="flex items-center gap-2.5">
               <div className="relative">
                 <Search className="size-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
