@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { ColumnDef, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, PaginationState, Row, SortingState, useReactTable } from '@tanstack/react-table';
-import { EllipsisVertical, Eye, Filter, Search, Settings2, X, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Eye, Filter, Search, Settings2, X, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -18,56 +18,38 @@ import { DataGridTable } from '@/components/ui/data-grid-table';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 
 
-interface Disbursement {
+interface User {
   id: string;
-  merchantName: string;
-  recipientName: string;
-  recipientAccount: string;
-  recipientBank: string;
-  amount: number;
-  description: string;
+  name: string;
+  email: string;
+  role: string;
   status: string;
   createdAt: string;
-  processedAt: string | null;
-  maker: string;
-  checker: string | null;
-  failureReason?: string;
+  lastLogin?: string; // string | undefined
 }
 
 function getStatusColor(status: string) {
   switch (status) {
-    case 'SUCCESS': return 'success';
-    case 'PENDING': return 'warning';
-    case 'FAILED': return 'destructive';
-    case 'PROCESSING': return 'info';
+    case 'ACTIVE': return 'success';
+    case 'INACTIVE': return 'destructive';
     default: return 'secondary';
   }
 }
 
-function getStatusIcon(status: string) {
-  switch (status) {
-    case 'SUCCESS': return <CheckCircle className="h-4 w-4" />;
-    case 'PENDING': return <Clock className="h-4 w-4" />;
-    case 'FAILED': return <XCircle className="h-4 w-4" />;
-    case 'PROCESSING': return <Clock className="h-4 w-4" />;
-    default: return <Clock className="h-4 w-4" />;
-  }
-}
-
-function ActionsCell({ row }: { row: Row<Disbursement> }) {
+function ActionsCell({ row }: { row: Row<User> }) {
   return (
     <div className="flex items-center space-x-2">
       <Button variant="ghost" size="sm" aria-label="Lihat detail">
         <Eye className="h-4 w-4" />
       </Button>
       <Button variant="ghost" size="sm" aria-label="Opsi lainnya">
-        <EllipsisVertical className="h-4 w-4" />
+        <MoreHorizontal className="h-4 w-4" />
       </Button>
     </div>
   );
 }
 
-export function DisbursementsTable({ disbursements }: { disbursements: Disbursement[] }) {
+export function UsersTable({ users }: { users: User[] }) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -77,13 +59,13 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
   const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>('latest');
 
-  const filteredDisbursements = useMemo(() => {
-    let filtered = disbursements;
+  const filteredUsers = useMemo(() => {
+    let filtered = users;
 
     // Filter berdasarkan status
     if (selectedStatuses.length > 0) {
-      filtered = filtered.filter((disbursement) =>
-        selectedStatuses.includes(disbursement.status)
+      filtered = filtered.filter((user) =>
+        selectedStatuses.includes(user.status)
       );
     }
 
@@ -91,11 +73,9 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
     if (searchQuery) {
       const searchLower = searchQuery.toLowerCase();
       filtered = filtered.filter(
-        (disbursement) =>
-          disbursement.recipientName.toLowerCase().includes(searchLower) ||
-          disbursement.id.toLowerCase().includes(searchLower) ||
-          disbursement.merchantName.toLowerCase().includes(searchLower) ||
-          disbursement.recipientBank.toLowerCase().includes(searchLower)
+        (user) =>
+          user.name.toLowerCase().includes(searchLower) ||
+          user.email.toLowerCase().includes(searchLower)
       );
     }
 
@@ -111,18 +91,18 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
     }
 
     return filtered;
-  }, [disbursements, searchQuery, selectedStatuses, sortOrder]);
+  }, [users, searchQuery, selectedStatuses, sortOrder]);
 
   const statusCounts = useMemo(() => {
-    return disbursements.reduce(
-      (acc, disbursement) => {
-        const status = disbursement.status;
+    return users.reduce(
+      (acc, user) => {
+        const status = user.status;
         acc[status] = (acc[status] || 0) + 1;
         return acc;
       },
       {} as Record<string, number>
     );
-  }, [disbursements]);
+  }, [users]);
 
   const handleStatusChange = (checked: boolean, value: string) => {
     setSelectedStatuses((prev = []) =>
@@ -130,67 +110,37 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
     );
   };
 
-  const columns = useMemo<ColumnDef<Disbursement>[]>(
+  const columns = useMemo<ColumnDef<User>[]>(
     () => [
       {
-        accessorKey: 'id',
+        accessorKey: 'name',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Transaction ID" column={column} />
+          <DataGridColumnHeader title="Name" column={column} />
         ),
         cell: ({ row }) => (
-          <div className="font-medium">{row.original.id}</div>
-        ),
-        enableSorting: true,
-        size: 150,
-      },
-      {
-        accessorKey: 'merchantName',
-        header: ({ column }) => (
-          <DataGridColumnHeader title="Merchant" column={column} />
-        ),
-        cell: ({ row }) => (
-          <div className="font-medium">{row.original.merchantName}</div>
-        ),
-        enableSorting: true,
-        size: 150,
-      },
-      {
-        accessorKey: 'recipientName',
-        header: ({ column }) => (
-          <DataGridColumnHeader title="Recipient" column={column} />
-        ),
-        cell: ({ row }) => (
-          <div>
-            <div className="font-medium">{row.original.recipientName}</div>
-            <div className="text-sm text-gray-600">{row.original.recipientAccount}</div>
-          </div>
+          <div className="font-medium">{row.original.name}</div>
         ),
         enableSorting: true,
         size: 200,
       },
       {
-        accessorKey: 'recipientBank',
+        accessorKey: 'email',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Bank" column={column} />
+          <DataGridColumnHeader title="Email" column={column} />
         ),
         cell: ({ row }) => (
-          <Badge variant="outline">{row.original.recipientBank}</Badge>
+          <div className="text-sm text-gray-600">{row.original.email}</div>
         ),
         enableSorting: true,
-        size: 120,
+        size: 250,
       },
       {
-        accessorKey: 'amount',
+        accessorKey: 'role',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Amount" column={column} />
+          <DataGridColumnHeader title="Role" column={column} />
         ),
         cell: ({ row }) => (
-          <div className="font-medium">
-            {new Intl.NumberFormat('id-ID', {
-              style: 'currency',
-              currency: 'IDR',
-            }).format(row.original.amount)}
-          </div>
+          <Badge variant="outline">{row.original.role}</Badge>
         ),
         enableSorting: true,
         size: 150,
@@ -201,29 +151,12 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
           <DataGridColumnHeader title="Status" column={column} />
         ),
         cell: ({ row }) => (
-          <div className="flex items-center space-x-2">
-            {getStatusIcon(row.original.status)}
-            <Badge variant={getStatusColor(row.original.status)}>
-              {row.original.status}
-            </Badge>
-          </div>
+          <Badge variant={getStatusColor(row.original.status)}>
+            {row.original.status}
+          </Badge>
         ),
         enableSorting: true,
-        size: 150,
-      },
-      {
-        accessorKey: 'maker',
-        header: ({ column }) => (
-          <DataGridColumnHeader title="Maker/Checker" column={column} />
-        ),
-        cell: ({ row }) => (
-          <div className="text-sm">
-            <div>Maker: {row.original.maker}</div>
-            {row.original.checker && <div>Checker: {row.original.checker}</div>}
-          </div>
-        ),
-        enableSorting: false,
-        size: 150,
+        size: 120,
       },
       {
         accessorKey: 'createdAt',
@@ -234,29 +167,18 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
           <div className="text-sm text-gray-600">{row.original.createdAt}</div>
         ),
         enableSorting: true,
-        size: 120,
+        size: 150,
       },
       {
-        accessorKey: 'description',
+        accessorKey: 'lastLogin',
         header: ({ column }) => (
-          <DataGridColumnHeader title="Description" column={column} />
+          <DataGridColumnHeader title="Last Login" column={column} />
         ),
         cell: ({ row }) => (
-          <div className="text-sm text-gray-600">{row.original.description}</div>
+          <div className="text-sm text-gray-600">{row.original.lastLogin || '-'}</div>
         ),
         enableSorting: true,
-        size: 200,
-      },
-      {
-        accessorKey: 'failureReason',
-        header: ({ column }) => (
-          <DataGridColumnHeader title="Failure Reason" column={column} />
-        ),
-        cell: ({ row }) => (
-          <div className="text-sm text-gray-600">{row.original.failureReason || '-'}</div>
-        ),
-        enableSorting: false,
-        size: 200,
+        size: 150,
       },
       {
         id: 'actions',
@@ -271,9 +193,9 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
 
   const table = useReactTable({
     columns,
-    data: filteredDisbursements,
-    pageCount: Math.ceil((filteredDisbursements?.length || 0) / pagination.pageSize),
-    getRowId: (row: Disbursement) => row.id,
+    data: filteredUsers,
+    pageCount: Math.ceil((filteredUsers?.length || 0) / pagination.pageSize),
+    getRowId: (row: User) => row.id,
     state: {
       pagination,
       sorting,
@@ -312,7 +234,7 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
   return (
     <DataGrid
       table={table}
-      recordCount={filteredDisbursements?.length || 0}
+      recordCount={filteredUsers?.length || 0}
       tableLayout={{
         columnsPinnable: true,
         columnsMovable: true,
@@ -323,12 +245,12 @@ export function DisbursementsTable({ disbursements }: { disbursements: Disbursem
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>All Transactions</CardTitle>
+            <CardTitle>User Management</CardTitle>
             <div className="flex items-center gap-2.5">
               <div className="relative">
                 <Search className="size-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
                 <Input
-                  placeholder="Search transactions..."
+                  placeholder="Search users..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="ps-9 w-40"

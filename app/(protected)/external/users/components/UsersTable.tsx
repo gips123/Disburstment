@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CheckCircle, XCircle, Shield, MapPin, CheckSquare, Square, Eye, Edit, MoreHorizontal, DollarSign } from 'lucide-react';
+import { useMemo } from 'react';
 
 interface User {
   id: string;
@@ -48,12 +49,41 @@ function getStatusIcon(status: string) {
   }
 }
 
-export function UsersTable({ users, searchTerm }: { users: User[]; searchTerm: string }) {
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.role.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+export function UsersTable({ users, searchQuery, selectedStatuses, sortOrder }: { users: User[]; searchQuery: string; selectedStatuses: string[]; sortOrder: string }) {
+  const filteredUsers = useMemo(() => {
+    let filtered = [...users];
+
+    // Filter berdasarkan status
+    if (selectedStatuses.length > 0) {
+      filtered = filtered.filter((user) =>
+        selectedStatuses.includes(user.status)
+      );
+    }
+
+    // Filter berdasarkan pencarian
+    if (searchQuery) {
+      const searchLower = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchLower) ||
+          user.email.toLowerCase().includes(searchLower) ||
+          user.role.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Urutkan berdasarkan sortOrder
+    if (sortOrder === 'latest') {
+      filtered.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    } else if (sortOrder === 'oldest') {
+      filtered.sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+    }
+
+    return filtered;
+  }, [users, searchQuery, selectedStatuses, sortOrder]);
 
   return (
     <div className="overflow-x-auto w-full">
@@ -111,7 +141,7 @@ export function UsersTable({ users, searchTerm }: { users: User[]; searchTerm: s
                 <div className="text-xs text-gray-600">Monthly</div>
               </td>
               <td className="py-4 px-4 text-sm text-gray-600">
-                {user.lastDisbursement}
+                {user.lastDisbursement || 'N/A'}
               </td>
               <td className="py-4 px-4">
                 <div className="flex items-center space-x-2">
