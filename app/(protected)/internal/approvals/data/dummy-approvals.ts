@@ -4,7 +4,7 @@ export const approvals = [
     type: 'MERCHANT_CREATION',
     entityName: 'Merchant ABC',
     description: 'New merchant registration',
-    maker: 'John Doe',
+    maker: 'Budi',
     createdAt: '2024-01-15 10:30',
     status: 'PENDING',
     data: {
@@ -19,7 +19,7 @@ export const approvals = [
     type: 'TOP_UP',
     entityName: 'Merchant XYZ',
     description: 'Top-up request for Rp 50,000,000',
-    maker: 'Jane Smith',
+    maker: 'Sela',
     createdAt: '2024-01-15 09:15',
     status: 'PENDING',
     data: {
@@ -32,12 +32,12 @@ export const approvals = [
     id: 'APV-003',
     type: 'DISBURSEMENT',
     entityName: 'Transaction TRX-001',
-    description: 'Disbursement to John Doe - Rp 5,000,000',
-    maker: 'Bob Wilson',
+    description: 'Disbursement to Budi - Rp 5,000,000',
+    maker: 'Fery',
     createdAt: '2024-01-15 08:45',
     status: 'PENDING',
     data: {
-      recipientName: 'John Doe',
+      recipientName: 'Budi',
       recipientAccount: '1234567890',
       recipientBank: 'BCA',
       amount: 5000000,
@@ -49,7 +49,7 @@ export const approvals = [
     type: 'USER_CREATION',
     entityName: 'User Registration',
     description: 'New user registration for Merchant DEF',
-    maker: 'Alice Brown',
+    maker: 'Gracia',
     createdAt: '2024-01-15 08:30',
     status: 'APPROVED',
     data: {

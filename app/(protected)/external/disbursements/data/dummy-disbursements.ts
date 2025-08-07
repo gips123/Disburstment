@@ -28,7 +28,7 @@ export interface AutomaticDisbursement {
 export const disbursements: Disbursement[] = [
   {
     id: 'TRX-001',
-    recipientName: 'John Doe',
+    recipientName: 'Budi',
     recipientAccount: '1234567890',
     recipientBank: 'BCA',
     amount: 5000000,
@@ -41,7 +41,7 @@ export const disbursements: Disbursement[] = [
   },
   {
     id: 'TRX-002',
-    recipientName: 'Jane Smith',
+    recipientName: 'Sela',
     recipientAccount: '0987654321',
     recipientBank: 'Mandiri',
     amount: 3500000,
@@ -54,7 +54,7 @@ export const disbursements: Disbursement[] = [
   },
   {
     id: 'TRX-003',
-    recipientName: 'Bob Wilson',
+    recipientName: 'Fery',
     recipientAccount: '1122334455',
     recipientBank: 'BNI',
     amount: 2000000,

@@ -12,21 +12,21 @@ export const stats = {
 export const recentTransactions = [
   {
     id: 'TRX-001',
-    recipient: 'John Doe',
+    recipient: 'Budi',
     amount: 5000000,
     status: 'SUCCESS',
     time: '2 min ago',
   },
   {
     id: 'TRX-002',
-    recipient: 'Jane Smith',
+    recipient: 'Sela',
     amount: 2500000,
     status: 'PENDING',
     time: '5 min ago',
   },
   {
     id: 'TRX-003',
-    recipient: 'Bob Wilson',
+    recipient: 'Fery',
     amount: 10000000,
     status: 'FAILED',
     time: '10 min ago',

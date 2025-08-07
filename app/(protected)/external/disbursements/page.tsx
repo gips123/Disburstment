@@ -67,10 +67,10 @@ export default function DisbursementsPage() {
                       <Label htmlFor="recipient">Select Recipient</Label>
                       <select className="w-full p-2 border border-gray-300 rounded-lg">
                         <option value="">Choose recipient</option>
-                        <option value="USR-001">John Doe - Employee</option>
-                        <option value="USR-002">Jane Smith - Contractor</option>
-                        <option value="USR-003">Bob Wilson - Vendor</option>
-                        <option value="USR-004">Alice Brown - Employee</option>
+                        <option value="USR-001">Budi - Employee</option>
+                        <option value="USR-002">Sela - Contractor</option>
+                        <option value="USR-003">Fery - Vendor</option>
+                        <option value="USR-004">Gracia - Employee</option>
                       </select>
                     </div>
                     <div>

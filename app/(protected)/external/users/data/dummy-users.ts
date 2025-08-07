@@ -1,7 +1,7 @@
 export const users = [
   {
     id: 'USR-001',
-    name: 'John Doe',
+    name: 'Budi',
     email: 'john@company.com',
     phone: '+62 812-3456-7890',
     role: 'EMPLOYEE',
@@ -17,7 +17,7 @@ export const users = [
   },
   {
     id: 'USR-002',
-    name: 'Jane Smith',
+    name: 'Sela',
     email: 'jane@company.com',
     phone: '+62 813-9876-5432',
     role: 'CONTRACTOR',
@@ -33,7 +33,7 @@ export const users = [
   },
   {
     id: 'USR-003',
-    name: 'Bob Wilson',
+    name: 'Fery',
     email: 'bob@company.com',
     phone: '+62 814-1111-2222',
     role: 'VENDOR',
@@ -49,7 +49,7 @@ export const users = [
   },
   {
     id: 'USR-004',
-    name: 'Alice Brown',
+    name: 'Gracia',
     email: 'alice@company.com',
     phone: '+62 815-3333-4444',
     role: 'EMPLOYEE',

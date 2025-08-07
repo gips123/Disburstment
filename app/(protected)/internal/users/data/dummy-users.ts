@@ -1,7 +1,7 @@
 export const users = [
     {
       id: 'USR-001',
-      name: 'Alice Brown',
+      name: 'Gracia',
       email: 'alice.brown@example.com',
       role: 'Admin',
       status: 'ACTIVE',
@@ -10,7 +10,7 @@ export const users = [
     },
     {
       id: 'USR-002',
-      name: 'Bob Wilson',
+      name: 'Fery',
       email: 'bob.wilson@example.com',
       role: 'Checker',
       status: 'ACTIVE',
